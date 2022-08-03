@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.142.0",
+    "serverless-iam-roles-per-function": "^3.2.0"
+  }
+}
