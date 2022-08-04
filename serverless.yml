@@ -1,4 +1,4 @@
-service: crud-aws
+service: crud-serverless
 
 provider:
   name: aws
