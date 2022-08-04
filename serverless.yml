@@ -7,7 +7,6 @@ provider:
   region: us-east-1
   environment:
     DYNAMODB_TABLE_NAME: ${self:custom.postsTableName}
-  Resource: 'arn:aws:iam::020673802681:user/serverless-admin'
 
 custom:
   postsTableName: posts-table-${self:provider.stage}
