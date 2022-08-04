@@ -15,7 +15,7 @@ const getPost = async (event) => {
     try {
         const params = {
             TableName: process.env.DYNAMODB_TABLE_NAME,
-            Key: marshall({ postId: event.pathParameters.postId }),
+            Key: marshall({ name: event.pathParameters.name }),
         };
         const { Item } = await db.send(new GetItemCommand(params));
 

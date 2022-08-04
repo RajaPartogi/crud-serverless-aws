@@ -22,7 +22,7 @@ functions:
     timeout: 5 # seconds
     events:
       - http:
-          path: post/{postId}
+          path: post/{name}
           method: GET
     iamRoleStatements:
       - Effect: "Allow"
