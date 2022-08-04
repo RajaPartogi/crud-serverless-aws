@@ -1,4 +1,4 @@
-service: dynamodb-crud-api
+service: crud-aws
 
 provider:
   name: aws
