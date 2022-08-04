@@ -7,6 +7,8 @@ const {
     UpdateItemCommand,
 } = require("@aws-sdk/client-dynamodb");
 const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
+const { v4: uuidv4 } = require('uuid');
+const id = uuid.v4();
 
 const getPost = async (event) => {
     const response = { statusCode: 200 };
@@ -44,7 +46,7 @@ const createPost = async (event) => {
         const body = JSON.parse(event.body);
         const params = {
             TableName: process.env.DYNAMODB_TABLE_NAME,
-            Item: marshall(body),
+            Item: marshall(body || { id, createdAt : new Date(), ...body}),
         };
         const createResult = await db.send(new PutItemCommand(params));
 

@@ -6,10 +6,10 @@ provider:
   stage: dev
   region: us-east-1
   environment:
-    DYNAMODB_TABLE_NAME: ${self:custom.postsTableName}
+    DYNAMODB_TABLE_NAME: ${self:custom.usersTableName}
 
 custom:
-  postsTableName: posts-table-${self:provider.stage}
+  usersTableName: users-table-${self:provider.stage}
 
 plugins:
   - serverless-iam-roles-per-function
@@ -91,12 +91,12 @@ resources:
     PostsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:custom.postsTableName}
+        TableName: ${self:custom.usersTableName}
         AttributeDefinitions:
-          - AttributeName: postId
+          - AttributeName: userId
             AttributeType: S
         KeySchema:
-          - AttributeName: postId
+          - AttributeName: userId
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
