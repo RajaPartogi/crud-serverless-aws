@@ -40,7 +40,7 @@ const getPost = async (event) => {
 
 const createPost = async (event) => {
     const response = { statusCode: 200 };
-    const id = uuidv4();
+    const userId = uuidv4();
 
     try {
         const body = JSON.parse(event.body);
