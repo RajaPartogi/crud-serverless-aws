@@ -9,7 +9,6 @@ const {
 const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
 const { v4 : uuidv4 } = require('uuid');
 const md5 = require('md5');
-const createPost = require("./posts/create");
 
 const getPost = async (event) => {
     const response = { statusCode: 200 };
@@ -135,7 +134,6 @@ const getAllPosts = async () => {
 
 module.exports = {
     getPost,
-    createPost,
     updatePost,
     deletePost,
     getAllPosts,

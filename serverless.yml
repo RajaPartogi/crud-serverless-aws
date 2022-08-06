@@ -30,7 +30,7 @@ functions:
           - "dynamodb:GetItem"
         Resource: !GetAtt PostsTable.Arn
   createPost:
-    handler: api.createPost
+    handler: posts/create.createPost
     name: create-post
     memorySize: 128 # mb
     timeout: 5 # seconds

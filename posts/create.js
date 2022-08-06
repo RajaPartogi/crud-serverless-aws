@@ -1,6 +1,5 @@
-"use strict";
-
-const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
+const { PutItemCommand } = require("@aws-sdk/client-dynamodb");
+const { marshall } = require("@aws-sdk/util-dynamodb");
 const dynamoDb = require("./db");
 const { sendResponse } = require("../functions/index");
 const { v4 : uuidv4 } = require('uuid');
@@ -23,8 +22,8 @@ const createPost = async (event) => {
                 deletedAt : "" }),
         };
 
-        // const createResult = await dynamoDb.send(new PutItemCommand(params));   
-        await dynamoDb.put(params).promise(); 
+        const createResult = await dynamoDb.send(new PutItemCommand(params));   
+        // await dynamoDb.put(params).promise(); 
 
         return sendResponse(response.statusCode, { message: "Successfully Post to Created New User." })
 
@@ -39,3 +38,5 @@ const createPost = async (event) => {
     }
     
 };
+
+module.exports = { createPost };
