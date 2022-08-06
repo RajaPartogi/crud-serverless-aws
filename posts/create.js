@@ -1,5 +1,3 @@
-"use strict";
-
 const { PutItemCommand } = require("@aws-sdk/client-dynamodb");
 const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
 const dynamoDb = require("./db");
