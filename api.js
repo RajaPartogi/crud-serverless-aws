@@ -8,6 +8,7 @@ const {
 } = require("@aws-sdk/client-dynamodb");
 const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
 const { v4 : uuidv4 } = require('uuid');
+const md5 = require('md5');
 
 const getPost = async (event) => {
     const response = { statusCode: 200 };
@@ -40,13 +41,14 @@ const getPost = async (event) => {
 
 const createPost = async (event) => {
     const response = { statusCode: 200 };
-    const userId = uuidv4();
+    const userId = uuidv4();    
 
     try {
         const body = JSON.parse(event.body);
+        const password = body.password;
         const params = {
             TableName: process.env.DYNAMODB_TABLE_NAME,
-            Item: marshall({ userId, createdAt : (new Date().toISOString()), ...body}),
+            Item: marshall({ userId, ...body, password : md5(password), createdAt : (new Date().toISOString()), updatedAt : "", deletedAt : "" }),
         };
         const createResult = await db.send(new PutItemCommand(params));
 
@@ -73,6 +75,7 @@ const updatePost = async (event) => {
 
     try {
         const body = JSON.parse(event.body);
+        body.updatedAt = updatedDate;
         const objKeys = Object.keys(body);
         const params = {
             TableName: process.env.DYNAMODB_TABLE_NAME,
@@ -85,7 +88,6 @@ const updatePost = async (event) => {
             ExpressionAttributeValues: marshall(objKeys.reduce((acc, key, index) => ({
                 ...acc,
                 [`:value${index}`]: body[key],
-                "UpdatedDate":updatedDate,
             }), {})),
         };
         const updateResult = await db.send(new UpdateItemCommand(params));
