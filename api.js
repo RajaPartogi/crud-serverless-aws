@@ -69,6 +69,7 @@ const createPost = async (event) => {
 
 const updatePost = async (event) => {
     const response = { statusCode: 200 };
+    const updatedDate = new Date().toISOString();
 
     try {
         const body = JSON.parse(event.body);
@@ -84,7 +85,6 @@ const updatePost = async (event) => {
             ExpressionAttributeValues: marshall(objKeys.reduce((acc, key, index) => ({
                 ...acc,
                 [`:value${index}`]: body[key],
-                "updatedAt":(new Date().toISOString()),
             }), {})),
         };
         const updateResult = await db.send(new UpdateItemCommand(params));
