@@ -29,11 +29,12 @@ functions:
         Action:
           - "dynamodb:GetItem"
         Resource: !GetAtt PostsTable.Arn
+
   createPost:
     handler: posts/create.createPost
     name: create-post
     memorySize: 128 # mb
-    timeout: 5 # seconds
+    timeout: 15 # seconds
     events:
       - http:
           path: post
@@ -43,11 +44,12 @@ functions:
         Action:
           - "dynamodb:PutItem"
         Resource: !GetAtt PostsTable.Arn
+
   updatePost:
     handler: api.updatePost
     name: update-post
     memorySize: 128 # mb
-    timeout: 5 # seconds
+    timeout: 15 # seconds
     events:
       - http:
           path: post/{userId}

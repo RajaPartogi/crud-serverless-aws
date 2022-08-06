@@ -11,4 +11,4 @@ const sendResponse = (statusCode, body) => {
     return response
   }
   
-  module.exports = { sendResponse };
+  module.exports = { sendResponse }; 
