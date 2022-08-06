@@ -2,7 +2,7 @@
 
 const { PutItemCommand } = require("@aws-sdk/client-dynamodb");
 const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
-const dynamoDb = require("../config/db");
+const dynamoDb = require("./db");
 const { sendResponse } = require("../functions/index");
 const { v4 : uuidv4 } = require('uuid');
 
