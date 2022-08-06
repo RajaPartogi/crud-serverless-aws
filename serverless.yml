@@ -22,7 +22,7 @@ functions:
     timeout: 5 # seconds
     events:
       - http:
-          path: post/{postId}
+          path: post/{userId}
           method: GET
     iamRoleStatements:
       - Effect: "Allow"
@@ -50,7 +50,7 @@ functions:
     timeout: 5 # seconds
     events:
       - http:
-          path: post/{postId}
+          path: post/{userId}
           method: PUT
     iamRoleStatements:
       - Effect: "Allow"
@@ -64,7 +64,7 @@ functions:
     timeout: 5 # seconds
     events:
       - http:
-          path: post/{postId}
+          path: post/{userId}
           method: DELETE
     iamRoleStatements:
       - Effect: "Allow"
