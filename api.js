@@ -79,11 +79,13 @@ const updatePost = async (event) => {
             UpdateExpression: `SET ${objKeys.map((_, index) => `#key${index} = :value${index}`).join(", ")}`,
             ExpressionAttributeNames: objKeys.reduce((acc, key, index) => ({
                 ...acc,
-                [`#key${index}`]: key,
+                [`#key${index}`]: key, 
+                updatedAt:(new Date().toISOString()),
             }), {}),
             ExpressionAttributeValues: marshall(objKeys.reduce((acc, key, index) => ({
                 ...acc,
                 [`:value${index}`]: body[key],
+                updatedAt:(new Date().toISOString()),
             }), {})),
         };
         const updateResult = await db.send(new UpdateItemCommand(params));
