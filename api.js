@@ -46,7 +46,7 @@ const createPost = async (event) => {
         const body = JSON.parse(event.body);
         const params = {
             TableName: process.env.DYNAMODB_TABLE_NAME,
-            Item: marshall({ userId, createdAt : (new Date().toString()), ...body}),
+            Item: marshall({ userId, createdAt : (new Date().toISOString()), ...body}),
         };
         const createResult = await db.send(new PutItemCommand(params));
 
@@ -76,16 +76,15 @@ const updatePost = async (event) => {
         const params = {
             TableName: process.env.DYNAMODB_TABLE_NAME,
             Key: marshall({ userId: event.pathParameters.userId }),
-            UpdateExpression: `SET ${objKeys.map((_, index) => `#key${index} = :value${index}`).join(", ")}`,
+            UpdateExpression: 'SET ${objKeys.map((_, index) => `#key${index} = :value${index}`).join(", ")}',
             ExpressionAttributeNames: objKeys.reduce((acc, key, index) => ({
                 ...acc,
-                [`#key${index}`]: key, 
-                updatedAt:(new Date().toISOString()),
+                ['#key${index}']: key,
             }), {}),
             ExpressionAttributeValues: marshall(objKeys.reduce((acc, key, index) => ({
                 ...acc,
                 [`:value${index}`]: body[key],
-                updatedAt:(new Date().toISOString()),
+                "updatedAt":(new Date().toISOString()),
             }), {})),
         };
         const updateResult = await db.send(new UpdateItemCommand(params));
