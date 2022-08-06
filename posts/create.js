@@ -20,13 +20,12 @@ module.exports.createPost = async (event) => {
 
         const createResult = await dynamoDb.send(new PutItemCommand(params));   
         
-        return sendResponse(response.statusCode, { message: "Post - Successfully Created New User." , createResult,})
+        return sendResponse(response.statusCode, { message: "Successfully Post to Created New User." , createResult,})
 
     } catch (e) {
-        console.error(e);
         response.statusCode = 500;
         response.body = JSON.stringify({
-            message: "Post - Failed to Create New Users.",
+            message: "Post Failed to Create New Users.",
             errorMsg: e.message,
             errorStack: e.stack,
         });
