@@ -1,3 +1,5 @@
+"use strict";
+
 const { PutItemCommand } = require("@aws-sdk/client-dynamodb");
 const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
 const dynamoDb = require("./db");
@@ -13,11 +15,18 @@ module.exports.createPost = async (event) => {
         const password = body.password;
         const params = {
             TableName: process.env.DYNAMODB_TABLE_NAME,
-            Item: marshall({ userId, ...body, password : md5(password), createdAt : (new Date().toISOString()), updatedAt : "", deletedAt : "" }),
+            Item: marshall({ 
+                userId, 
+                ...body, 
+                password : md5(password), 
+                createdAt : (new Date().toISOString()), 
+                updatedAt : "", 
+                deletedAt : "" }),
         };
 
-        const createResult = await dynamoDb.send(new PutItemCommand(params));   
-        
+        // const createResult = await dynamoDb.send(new PutItemCommand(params));   
+        const createResult = await dynamoDb.put(params).promise(); 
+
         return sendResponse(response.statusCode, { message: "Successfully Post to Created New User." , createResult,})
 
     } catch (e) {
