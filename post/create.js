@@ -1,4 +1,4 @@
-const { PutItemCommand } = require("@aws-sdk/client-dynamodb");
+// const { PutItemCommand } = require("@aws-sdk/client-dynamodb");
 // const { marshall } = require("@aws-sdk/util-dynamodb");
 const dynamoDb = require("../config/db");
 const { sendResponse } = require("../functions/index");
