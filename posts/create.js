@@ -1,7 +1,7 @@
 const { PutItemCommand } = require("@aws-sdk/client-dynamodb");
 const { marshall } = require("@aws-sdk/util-dynamodb");
-const dynamoDb = require("../config/db");
-const { sendResponse } = require("../functions/index");
+const dynamoDb = require("./config/db");
+const { sendResponse } = require("./functions/index");
 const { v4 : uuidv4 } = require('uuid');
 
 const createPost = async (event) => {
