@@ -1,10 +1,10 @@
 const { PutItemCommand } = require("@aws-sdk/client-dynamodb");
-const { marshall } = require("@aws-sdk/util-dynamodb");
-const dynamoDb = require("./config/db");
-const { sendResponse } = require("./functions/index");
+// const { marshall } = require("@aws-sdk/util-dynamodb");
+const dynamoDb = require("../config/db");
+const { sendResponse } = require("../functions/index");
 const { v4 : uuidv4 } = require('uuid');
 
-const createPost = async (event) => {
+module.exports.TableNamecreatePost = async (event) => {
     const response = { statusCode: 200 };
     const userId = uuidv4();    
 
@@ -13,17 +13,19 @@ const createPost = async (event) => {
         const password = body.password;
         const params = {
             TableName: process.env.DYNAMODB_TABLE_NAME,
-            Item: marshall({ 
+            Item: { 
                 userId, 
                 ...body, 
                 password : md5(password), 
                 createdAt : (new Date().toISOString()), 
                 updatedAt : "", 
-                deletedAt : "" }),
+                deletedAt : "" 
+            },
+            ConditionExpression: "attribute_not_exists(userId)"
         };
 
-        const createResult = await dynamoDb.send(new PutItemCommand(params));   
-        // await dynamoDb.put(params).promise(); 
+        // const createResult = await dynamoDb.send(new PutItemCommand(params));   
+        await dynamoDb.put(params).promise(); 
 
         return sendResponse(response.statusCode, { message: "Successfully Post to Created New User." })
 
@@ -38,5 +40,3 @@ const createPost = async (event) => {
     }
     
 };
-
-module.exports = { createPost };
