@@ -31,7 +31,7 @@ functions:
         Resource: !GetAtt PostsTable.Arn
 
   createPost:
-    handler: posts/create.createPost
+    handler: api.createPost
     name: create-post
     memorySize: 128 # mb
     timeout: 15 # seconds
@@ -59,6 +59,7 @@ functions:
         Action:
           - "dynamodb:UpdateItem"
         Resource: !GetAtt PostsTable.Arn
+
   deletePost:
     handler: api.deletePost
     name: delete-post
@@ -73,6 +74,7 @@ functions:
         Action:
           - "dynamodb:DeleteItem"
         Resource: !GetAtt PostsTable.Arn
+
   getAllPosts:
     handler: api.getAllPosts
     name: get-all-posts

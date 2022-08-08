@@ -39,7 +39,35 @@ const getPost = async (event) => {
     return response;
 };
 
+const createPost = async (event) => {
+    const response = { statusCode: 200 };
+    const userId = uuidv4();    
 
+    try {
+        const body = JSON.parse(event.body);
+        const password = body.password;
+        const params = {
+            TableName: process.env.DYNAMODB_TABLE_NAME,
+            Item: marshall({ userId, ...body, password : md5(password), createdAt : (new Date().toISOString()), updatedAt : "", deletedAt : "" }),
+        };
+        const createResult = await db.send(new PutItemCommand(params));
+
+        response.body = JSON.stringify({
+            message: "Successfully created post.",
+            createResult,
+        });
+    } catch (e) {
+        console.error(e);
+        response.statusCode = 500;
+        response.body = JSON.stringify({
+            message: "Failed to create post.",
+            errorMsg: e.message,
+            errorStack: e.stack,
+        });
+    }
+
+    return response;
+};
 
 const updatePost = async (event) => {
     const response = { statusCode: 200 };
@@ -134,6 +162,7 @@ const getAllPosts = async () => {
 
 module.exports = {
     getPost,
+    createPost,
     updatePost,
     deletePost,
     getAllPosts,
